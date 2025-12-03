@@ -12,8 +12,9 @@ import { useSelector } from "react-redux";
 import { RandomAvatar } from "react-random-avatars";
 
 function Browse() {
-  // const backendURL = "https://youtube-clone-mern-backend.vercel.app"
-  const backendURL = "http://localhost:3000";
+  const isProduction = window.location.hostname !== 'localhost';
+  const backendURL = isProduction ? "" : "http://localhost:3000";
+  const bunnyVideosEndpoint = isProduction ? "/.netlify/functions/bunny-videos" : "/bunny-videos";
   const [VideoData, setVideoData] = useState([]);
   const [TagsSelected, setTagsSelected] = useState("All");
   const [FilteredVideos, setFilteredVideos] = useState([]);
@@ -45,7 +46,7 @@ function Browse() {
   useEffect(() => {
     const getVideos = async () => {
       try {
-        const response = await fetch(`${backendURL}/bunny-videos`);
+        const response = await fetch(`${backendURL}${bunnyVideosEndpoint}`);
         const data = await response.json();
         if (data.items && Array.isArray(data.items)) {
           const formattedVideos = data.items.map(video => ({

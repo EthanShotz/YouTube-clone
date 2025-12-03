@@ -95,9 +95,12 @@ router.get("/bunny-videos", async (req, res) => {
 });
 
 // Get single Bunny video by GUID for video playback
-router.get("/bunny-video/:guid", async (req, res) => {
+router.get("/bunny-video", async (req, res) => {
   try {
-    const { guid } = req.params;
+    const guid = req.query.guid;
+    if (!guid) {
+      return res.status(400).json({ message: "Missing guid parameter" });
+    }
     const options = {
       method: 'GET',
       headers: {
@@ -117,7 +120,7 @@ router.get("/bunny-video/:guid", async (req, res) => {
     const formattedVideo = {
       _id: video.guid,
       videoURL: `https://vz-f7a6f94e-08a.b-cdn.net/${video.guid}/playlist.m3u8`,
-      thumbnailURL: `http://localhost:3000/thumbnail/${video.guid}`,
+      thumbnailURL: `/thumbnail/${video.guid}`,
       Title: video.title,
       Description: video.metaTags?.find(tag => tag.property === "description")?.value || "",
       uploader: getRandomUsername(video.guid),

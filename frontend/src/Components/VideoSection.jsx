@@ -38,7 +38,9 @@ import { useSelector } from "react-redux";
 
 function VideoSection() {
   // const backendURL = "https://youtube-clone-mern-backend.vercel.app";
-  const backendURL = "http://localhost:3000";
+  const isProduction = window.location.hostname !== 'localhost';
+  const backendURL = isProduction ? "" : "http://localhost:3000";
+  const bunnyVideoEndpoint = isProduction ? "/.netlify/functions/bunny-video" : "/bunny-video";
   const { id } = useParams();
   const [videoData, setVideoData] = useState(null);
   const [channelName, setChannelName] = useState();
@@ -274,7 +276,7 @@ function VideoSection() {
       try {
         if (id) {
           // First try to fetch from Bunny.net
-          const bunnyResponse = await fetch(`${backendURL}/bunny-video/${id}`);
+          const bunnyResponse = await fetch(`${backendURL}${bunnyVideoEndpoint}?guid=${id}`);
           if (bunnyResponse.ok) {
             const bunnyVideo = await bunnyResponse.json();
             // Wrap in VideoData array format for compatibility
