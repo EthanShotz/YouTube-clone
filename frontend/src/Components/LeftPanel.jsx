@@ -518,7 +518,7 @@ function LeftPanel() {
           <hr className={theme ? "seperate" : "seperate-light"} />
           <Tooltip
             TransitionComponent={Zoom}
-            title="Made with 💖 by EthanShotz"
+            title="Made with 💖 by Grunjee"
             placement="bottom"
           >
             <div className="developer">
@@ -527,11 +527,11 @@ function LeftPanel() {
                 style={{ color: theme ? "white" : "black" }}
               />
               <a
-                href="https://github.com/EthanShotz"
+                href="https://grunjee.com"
                 target="_blank"
                 rel="noreferrer"
               >
-                EthanShotz 🚀
+                Grunjee 🚀
               </a>
             </div>
           </Tooltip>
@@ -1344,7 +1344,7 @@ function LeftPanel() {
             <hr className={theme ? "seperate" : "seperate-light"} />
             <Tooltip
               TransitionComponent={Zoom}
-              title="Made with 💖 by EthanShotz"
+              title="Made with 💖 by Grunjee"
               placement="bottom"
             >
               <div className="developer">
@@ -1353,11 +1353,11 @@ function LeftPanel() {
                   style={{ color: theme ? "white" : "black" }}
                 />
                 <a
-                  href="https://github.com/EthanShotz"
+                  href="https://grunjee.com"
                   target="_blank"
                   rel="noreferrer"
                 >
-                  EthanShotz 🚀
+                  Grunjee 🚀
                 </a>
               </div>
             </Tooltip>
