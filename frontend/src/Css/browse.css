@@ -60,14 +60,16 @@
   position: relative;
   left: 250px;
   top: 100px;
+  transition: left 0.2s ease, width 0.2s ease;
 }
 
 .browse-data2 {
   background-color: #0f0f0f;
-  width: 95%;
+  width: calc(100% - 74px);
   position: relative;
-  left: 250px;
+  left: 74px;
   top: 100px;
+  transition: left 0.2s ease, width 0.2s ease;
 }
 
 .browse {

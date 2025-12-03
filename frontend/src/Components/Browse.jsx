@@ -18,7 +18,10 @@ function Browse() {
   const [VideoData, setVideoData] = useState([]);
   const [TagsSelected, setTagsSelected] = useState("All");
   const [FilteredVideos, setFilteredVideos] = useState([]);
-  const [menuClicked, setMenuClicked] = useState(false);
+  const [menuClicked, setMenuClicked] = useState(() => {
+    const menu = localStorage.getItem("menuClicked");
+    return menu ? JSON.parse(menu) : false;
+  });
   const [loading, setLoading] = useState(true);
   const [theme, setTheme] = useState(() => {
     const Dark = localStorage.getItem("Dark");
@@ -29,6 +32,27 @@ function Browse() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, []);
+
+  // Listen for localStorage changes from LeftPanel
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const menu = localStorage.getItem("menuClicked");
+      setMenuClicked(menu ? JSON.parse(menu) : false);
+    };
+    window.addEventListener("storage", handleStorageChange);
+
+    // Also check periodically for same-tab changes
+    const interval = setInterval(() => {
+      const menu = localStorage.getItem("menuClicked");
+      const currentValue = menu ? JSON.parse(menu) : false;
+      setMenuClicked(prev => prev !== currentValue ? currentValue : prev);
+    }, 100);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      clearInterval(interval);
+    };
   }, []);
 
   const Tags = [
@@ -115,7 +139,6 @@ function Browse() {
                 ? `browse-data ${theme ? "" : "light-mode"}`
                 : `browse-data2 ${theme ? "" : "light-mode"}`
             }
-            style={menuClicked === false ? { left: "74px" } : { left: "250px" }}
           >
             <div
               className={
@@ -209,7 +232,6 @@ function Browse() {
               ? `browse-data ${theme ? "" : "light-mode"}`
               : `browse-data2 ${theme ? "" : "light-mode"}`
           }
-          style={menuClicked === false ? { left: "74px " } : { left: "250px " }}
         >
           <div
             className={
