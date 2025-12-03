@@ -11,8 +11,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 
 function Basic() {
-  const backendURL = "https://youtube-clone-mern-backend.vercel.app"
-  // const backendURL = "http://localhost:3000";
+  // const backendURL = "https://youtube-clone-mern-backend.vercel.app"
+  const backendURL = "http://localhost:3000";
   const [channelName, setChannelName] = useState();
   const [channelDescription, setChannelDescription] = useState();
   const [channelID, setChannelID] = useState("");
@@ -261,7 +261,7 @@ function Basic() {
             }
           >
             Choose a channel name that represents you and your content. Changes
-            made to your name and picture are visible only on YouTube.
+            made to your name and picture are visible only on RambleVerse.
           </p>
           {channelName === undefined ? (
             <input

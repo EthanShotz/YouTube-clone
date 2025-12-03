@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import Plyr from "plyr";
+import Hls from "hls.js";
 import Navbar from "./Navbar";
 import Share from "./Share";
 import "../Css/videoSection.css";
@@ -36,8 +37,8 @@ import Error from "./Error";
 import { useSelector } from "react-redux";
 
 function VideoSection() {
-  const backendURL = "https://youtube-clone-mern-backend.vercel.app";
-  // const backendURL = "http://localhost:3000";
+  // const backendURL = "https://youtube-clone-mern-backend.vercel.app";
+  const backendURL = "http://localhost:3000";
   const { id } = useParams();
   const [videoData, setVideoData] = useState(null);
   const [channelName, setChannelName] = useState();
@@ -272,6 +273,16 @@ function VideoSection() {
     const getVideoData = async () => {
       try {
         if (id) {
+          // First try to fetch from Bunny.net
+          const bunnyResponse = await fetch(`${backendURL}/bunny-video/${id}`);
+          if (bunnyResponse.ok) {
+            const bunnyVideo = await bunnyResponse.json();
+            // Wrap in VideoData array format for compatibility
+            setVideoData({ VideoData: [bunnyVideo], isBunnyVideo: true });
+            return;
+          }
+
+          // Fall back to MongoDB
           const response = await fetch(`${backendURL}/videodata/${id}`);
           const video = await response.json();
           setVideoData(video);
@@ -314,19 +325,54 @@ function VideoSection() {
 
   useEffect(() => {
     const initializePlyr = () => {
-      if (!plyrInitialized && videoRef.current) {
-        const player = new Plyr(videoRef.current, {
-          background: "red",
-          ratio: null,
-        });
-        setPlyrInitialized(true);
+      // Get video URL - prefer from video data, fallback to constructed URL
+      const videoURL = matchedVideo?.videoURL || `https://vz-f7a6f94e-08a.b-cdn.net/${id}/playlist.m3u8`;
+
+      if (!plyrInitialized && videoRef.current && matchedVideo) {
+        if (Hls.isSupported()) {
+          const hls = new Hls();
+          hls.loadSource(videoURL);
+          hls.attachMedia(videoRef.current);
+          hls.on(Hls.Events.MANIFEST_PARSED, function () {
+            const player = new Plyr(videoRef.current, {
+              background: "red",
+              ratio: null,
+            });
+            setPlyrInitialized(true);
+          });
+        } else if (videoRef.current.canPlayType("application/vnd.apple.mpegurl")) {
+          // Native HLS support
+          videoRef.current.src = videoURL;
+          const player = new Plyr(videoRef.current, {
+            background: "red",
+            ratio: null,
+          });
+          setPlyrInitialized(true);
+        } else {
+          // Fallback for browsers that don't support HLS
+          console.error("HLS is not supported in this browser.");
+          const player = new Plyr(videoRef.current, {
+            background: "red",
+            ratio: null,
+          });
+          setPlyrInitialized(true);
+        }
       }
     };
 
-    if (videoData && videoData.VideoData) {
+    if (videoData && matchedVideo) {
       initializePlyr();
     }
-  }, [plyrInitialized, videoData]);
+    // Cleanup function
+    return () => {
+        if (videoRef.current && Plyr.supported && plyrInitialized) {
+            const player = Plyr.get(videoRef.current);
+            if (player) {
+                player.destroy();
+            }
+        }
+    };
+  }, [plyrInitialized, videoData, id]);
 
   useEffect(() => {
     const getLikes = async () => {
@@ -672,8 +718,9 @@ function VideoSection() {
   //   );
   // }
 
+  // Use video URL from Bunny response, or construct it for legacy videos
+  const bunnyVideoURL = matchedVideo.videoURL || `https://vz-f7a6f94e-08a.b-cdn.net/${id}/playlist.m3u8`;
   const {
-    videoURL,
     Title,
     thumbnailURL,
     ChannelProfile,
@@ -686,7 +733,7 @@ function VideoSection() {
   } = matchedVideo;
 
   document.title =
-    Title && Title !== undefined ? `${Title} - YouTube` : "YouTube";
+    Title && Title !== undefined ? `${Title} - RambleVerse` : "RambleVerse";
 
   const likeVideo = async () => {
     try {
@@ -1048,7 +1095,6 @@ function VideoSection() {
               ref={videoRef}
               poster={thumbnailURL}
             >
-              <source src={videoURL} type="video/mp4" />
             </video>
           </div>
           <p

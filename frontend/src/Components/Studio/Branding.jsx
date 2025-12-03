@@ -9,8 +9,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 
 function Branding() {
-  const backendURL = "https://youtube-clone-mern-backend.vercel.app"
-  // const backendURL = "http://localhost:3000";
+  // const backendURL = "https://youtube-clone-mern-backend.vercel.app"
+  const backendURL = "http://localhost:3000";
   const [selectedProfile, setSelectedProfile] = useState(null);
   const [previewProfile, setPreviewProfile] = useState(defaultimg);
   const [selectedBanner, setSelectedBanner] = useState(null);
@@ -303,7 +303,7 @@ function Branding() {
             }
           >
             Your profile picture will appear where your channel is presented on
-            YouTube, like next to your videos and comments.
+            RambleVerse, like next to your videos and comments.
           </p>
           <p
             className={
@@ -359,7 +359,7 @@ function Branding() {
             >
               It’s recommended to use a picture that’s at least 98 x 98 pixels
               and 4MB or less. Use a PNG or GIF (no animations) file. Make sure
-              your picture follows the YouTube Community Guidelines.
+              your picture follows the RambleVerse Community Guidelines.
               <label
                 className={theme ? "change-image" : "change-image blue-txt"}
                 htmlFor="profile-image-input"

@@ -18,7 +18,7 @@ import Comments from "./Components/Studio/Comments";
 import VideoComments from "./Components/Studio/VideoComments";
 import { ToastContainer } from "react-toastify";
 import { Helmet } from "react-helmet";
-import ytLogo from "./img/icon.png";
+import myTubeLogo from "./img/icon.png";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUserData } from "./reducer/user";
 import "react-toastify/dist/ReactToastify.css";
@@ -50,7 +50,7 @@ function App() {
       />
       <BrowserRouter>
         <Helmet>
-          <link rel="icon" type="image/x-icon" href={ytLogo} />
+          <link rel="icon" type="image/x-icon" href={myTubeLogo} />
         </Helmet>
         <Routes>
           <Route path="/" element={<Browse />} />

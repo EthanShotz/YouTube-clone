@@ -9,8 +9,8 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { useSelector } from "react-redux";
 
 function WatchLater() {
-  const backendURL = "https://youtube-clone-mern-backend.vercel.app";
-  // const backendURL = "http://localhost:3000";
+  // const backendURL = "https://youtube-clone-mern-backend.vercel.app";
+  const backendURL = "http://localhost:3000";
   const [email, setEmail] = useState();
   const [name, setName] = useState();
   const [menuClicked, setMenuClicked] = useState(() => {
@@ -27,7 +27,7 @@ function WatchLater() {
   const User = useSelector((state) => state.user.user);
   const { user } = User;
 
-  document.title = "Watch later - YouTube";
+  document.title = "Watch later - RambleVerse";
 
   useEffect(() => {
     setTimeout(() => {

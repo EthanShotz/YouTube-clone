@@ -17,8 +17,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 
 function SearchResults() {
-  const backendURL = "https://youtube-clone-mern-backend.vercel.app"
-  // const backendURL = "http://localhost:3000";
+  // const backendURL = "https://youtube-clone-mern-backend.vercel.app"
+  const backendURL = "http://localhost:3000";
   const { data } = useParams();
   const [searchedVideoData, setsearchedVideoData] = useState([]);
   const [searchedChannelData, setsearchedChannelData] = useState([]);
@@ -57,7 +57,7 @@ function SearchResults() {
     }, 2500);
   }, []);
 
-  document.title = data && data !== undefined ? `${data} - YouTube` : "YouTube";
+  document.title = data && data !== undefined ? `${data} - RambleVerse` : "RambleVerse";
 
   useEffect(() => {
     if (theme === false && !window.location.href.includes("/studio")) {

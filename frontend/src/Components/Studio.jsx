@@ -32,8 +32,8 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import LanguageIcon from "@mui/icons-material/Language";
 
 function Studio() {
-  const backendURL = "https://youtube-clone-mern-backend.vercel.app"
-  // const backendURL = "http://localhost:3000";
+  // const backendURL = "https://youtube-clone-mern-backend.vercel.app"
+  const backendURL = "http://localhost:3000";
   const [isChannel, setisChannel] = useState();
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedThumbnail, setSelectedThumbnail] = useState(null);
@@ -653,7 +653,7 @@ function Studio() {
               theme ? "channel-slogan" : "channel-slogan text-light-mode2"
             }
           >
-            Share Your Story: Inspire and Connect with a YouTube Channel!
+            Share Your Story: Inspire and Connect with a RambleVerse Channel!
           </p>
           <form onSubmit={saveChannelData} className="channel-deatils">
             <div className="profile-pic-section">
@@ -1146,7 +1146,7 @@ function Studio() {
                     width="284.44"
                     height="160"
                     src={VideoURL}
-                    title="YouTube video player"
+                    title="RambleVerse video player"
                     frameBorder="0"
                     allowFullScreen
                   ></iframe>

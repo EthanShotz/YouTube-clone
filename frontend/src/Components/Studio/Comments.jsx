@@ -16,8 +16,8 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { useSelector } from "react-redux";
 
 function Comments() {
-  const backendURL = "https://youtube-clone-mern-backend.vercel.app"
-  // const backendURL = "http://localhost:3000";
+  // const backendURL = "https://youtube-clone-mern-backend.vercel.app"
+  const backendURL = "http://localhost:3000";
   const [AllComments, setAllComments] = useState([]);
   const [Profile, setProfile] = useState();
   const [filterComment, setFilterComment] = useState("");
@@ -33,7 +33,7 @@ function Comments() {
   const User = useSelector((state) => state.user.user);
   const { user } = User;
 
-  document.title = "Channel comments - YouTube Studio";
+  document.title = "Channel comments - RambleVerse Studio";
 
   useEffect(() => {
     const handleMenuButtonClick = () => {

@@ -25,8 +25,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 
 function Content() {
-  const backendURL = "https://youtube-clone-mern-backend.vercel.app"
-  // const backendURL = "http://localhost:3000";
+  // const backendURL = "https://youtube-clone-mern-backend.vercel.app"
+  const backendURL = "http://localhost:3000";
   const [userVideos, setUserVideos] = useState([]);
   const [sortByDateAsc, setSortByDateAsc] = useState(true);
   const [changeSort, setChangeSort] = useState(false);
@@ -48,7 +48,7 @@ function Content() {
   const User = useSelector((state) => state.user.user);
   const { user } = User;
 
-  document.title = "Channel content - YouTube Studio";
+  document.title = "Channel content - RambleVerse Studio";
 
   //TOASTS
 
@@ -492,7 +492,7 @@ function Content() {
                             </Tooltip>
                             <Tooltip
                               TransitionComponent={Zoom}
-                              title="View on YouTube"
+                              title="View on RambleVerse"
                               placement="bottom"
                             >
                               <YouTubeIcon
@@ -800,7 +800,7 @@ function Content() {
             }
           />
           <p>
-            I understand that deleting a video from YouTube is permanent and
+            I understand that deleting a video from RambleVerse is permanent and
             cannot be undone.
           </p>
         </div>

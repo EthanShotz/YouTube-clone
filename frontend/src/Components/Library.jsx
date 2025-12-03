@@ -30,8 +30,8 @@ function generateRandomColors(count) {
 }
 
 function Library() {
-  const backendURL = "https://youtube-clone-mern-backend.vercel.app"
-  // const backendURL = "http://localhost:3000";
+  // const backendURL = "https://youtube-clone-mern-backend.vercel.app"
+  const backendURL = "http://localhost:3000";
   const [watchlater, setWatchLater] = useState([]);
   const [PlaylistData, setPlaylistData] = useState([]);
   const [playlistColors, setPlaylistColors] = useState([]);
@@ -44,7 +44,7 @@ function Library() {
     return menu ? JSON.parse(menu) : false;
   });
   const [savedPlaylist, setSavedPlaylist] = useState([]);
-  document.title = "Library - YouTube";
+  document.title = "Library - RambleVerse";
   const [theme, setTheme] = useState(() => {
     const Dark = localStorage.getItem("Dark");
     return Dark ? JSON.parse(Dark) : true;

@@ -7,6 +7,97 @@ const TrendingData = require("../Models/trending");
 const cookieParser = require("cookie-parser");
 const { verifyRefreshToken, generateAccessToken } = require("../lib/tokens");
 const Videos = express.Router();
+const axios = require("axios");
+
+// TODO: Move AccessKey to environment variables
+const BUNNY_ACCESS_KEY = "de0c5d7a-0402-4127-a55621c98177-d3aa-48d0";
+
+const BUNNY_LIBRARY_ID = "554184";
+const BUNNY_COLLECTION_ID = "7c4365ea-85bf-45ee-b822-22960971a088";
+const BUNNY_CDN_HOSTNAME = "vz-cac74041-8b3.b-cdn.net";
+
+Videos.get("/bunny-videos", async (req, res) => {
+  try {
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        AccessKey: BUNNY_ACCESS_KEY
+      }
+    };
+
+    // Fetch videos from the library that belong to this collection
+    const response = await axios.get(
+      `https://video.bunnycdn.com/library/${BUNNY_LIBRARY_ID}/videos?collection=${BUNNY_COLLECTION_ID}&itemsPerPage=100`,
+      options
+    );
+
+    // Transform videos to the format expected by the frontend
+    const videos = response.data.items || [];
+    const formattedVideos = videos.map(video => ({
+      guid: video.guid,
+      title: video.title,
+      length: video.length,
+      views: video.views || 0,
+      dateUploaded: video.dateUploaded,
+      thumbnailUrl: `https://${BUNNY_CDN_HOSTNAME}/${video.guid}/thumbnail.jpg`,
+      channelName: "Bunny Videos"
+    }));
+
+    res.json({ items: formattedVideos });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "An error occurred" });
+  }
+});
+
+// Get single Bunny video by GUID
+Videos.get("/bunny-video/:guid", async (req, res) => {
+  try {
+    const { guid } = req.params;
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        AccessKey: BUNNY_ACCESS_KEY
+      }
+    };
+
+    const response = await axios.get(
+      `https://video.bunnycdn.com/library/${BUNNY_LIBRARY_ID}/videos/${guid}`,
+      options
+    );
+
+    const video = response.data;
+
+    // Transform to the format expected by the frontend VideoSection
+    const formattedVideo = {
+      _id: video.guid,
+      videoURL: `https://${BUNNY_CDN_HOSTNAME}/${video.guid}/playlist.m3u8`,
+      thumbnailURL: `https://${BUNNY_CDN_HOSTNAME}/${video.guid}/thumbnail.jpg`,
+      Title: video.title,
+      Description: video.metaTags?.find(tag => tag.property === "description")?.value || "",
+      uploader: "Bunny Videos",
+      ChannelProfile: "https://via.placeholder.com/40",
+      views: video.views || 0,
+      likes: 0,
+      videoLength: video.length,
+      uploaded_date: video.dateUploaded,
+      visibility: "Public",
+      comments: [],
+      isBunnyVideo: true
+    };
+
+    res.json(formattedVideo);
+  } catch (error) {
+    console.error(error);
+    if (error.response?.status === 404) {
+      res.status(404).json({ message: "Video not found" });
+    } else {
+      res.status(500).json({ message: "An error occurred" });
+    }
+  }
+});
 
 Videos.use(cookieParser());
 
@@ -198,7 +289,13 @@ Videos.get("/videodata/:id", async (req, res) => {
       return res.status(404).json({ error: "Video not found" });
     }
 
-    res.json(video);
+    const matchedVideo = video.VideoData.find(item => item._id.toString() === id);
+
+    if (!matchedVideo) {
+      return res.status(404).json({ error: "Video not found in VideoData array" });
+    }
+
+    res.json(matchedVideo);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });

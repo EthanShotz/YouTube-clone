@@ -11,8 +11,8 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { useSelector } from "react-redux";
 
 function Subscriptions() {
-  const backendURL = "https://youtube-clone-mern-backend.vercel.app";
-  // const backendURL = "http://localhost:3000";
+  // const backendURL = "https://youtube-clone-mern-backend.vercel.app";
+  const backendURL = "http://localhost:3000";
   const [subscriptions, setSubscriptions] = useState([]);
   const [subsVideos, setSubsVideos] = useState([]);
   const [menuClicked, setMenuClicked] = useState(() => {
@@ -24,7 +24,7 @@ function Subscriptions() {
     const Dark = localStorage.getItem("Dark");
     return Dark ? JSON.parse(Dark) : true;
   });
-  document.title = "Subscriptions - YouTube";
+  document.title = "Subscriptions - RambleVerse";
   const User = useSelector((state) => state.user.user);
   const { user } = User;
 

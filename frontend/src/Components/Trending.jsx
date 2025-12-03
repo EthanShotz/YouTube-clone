@@ -12,8 +12,8 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { useSelector } from "react-redux";
 
 function Trending() {
-  const backendURL = "https://youtube-clone-mern-backend.vercel.app";
-  // const backendURL = "http://localhost:3000";
+  // const backendURL = "https://youtube-clone-mern-backend.vercel.app";
+  const backendURL = "http://localhost:3000";
   const [trendingVideos, setTrendingVideos] = useState([]);
   const [menuClicked, setMenuClicked] = useState(() => {
     const menu = localStorage.getItem("menuClicked");
@@ -26,7 +26,7 @@ function Trending() {
   });
   const User = useSelector((state) => state.user.user);
   const { user } = User;
-  document.title = "Trending - YouTube";
+  document.title = "Trending - RambleVerse";
 
   useEffect(() => {
     if (theme === false && !window.location.href.includes("/studio")) {

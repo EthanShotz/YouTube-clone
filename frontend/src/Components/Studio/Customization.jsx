@@ -7,8 +7,8 @@ import Basic from "./Basic";
 import { useSelector } from "react-redux";
 
 function Customization() {
-  const backendURL = "https://youtube-clone-mern-backend.vercel.app"
-  // const backendURL = "http://localhost:3000";
+  // const backendURL = "https://youtube-clone-mern-backend.vercel.app"
+  const backendURL = "http://localhost:3000";
   const [currentTab, setCurrentTab] = useState("branding");
   const [channelID, setChannelID] = useState();
   const [menu, setmenu] = useState(() => {
@@ -21,7 +21,7 @@ function Customization() {
   });
   const User = useSelector((state) => state.user.user);
   const { user } = User;
-  document.title = "Channel customization - YouTube Studio";
+  document.title = "Channel customization - RambleVerse Studio";
 
   useEffect(() => {
     const handleMenuButtonClick = () => {

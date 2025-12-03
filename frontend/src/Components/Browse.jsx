@@ -9,26 +9,15 @@ import LeftPanel from "./LeftPanel";
 import Navbar from "./Navbar";
 import "../Css/theme.css";
 import { useSelector } from "react-redux";
+import { RandomAvatar } from "react-random-avatars";
 
 function Browse() {
-  const backendURL = "https://youtube-clone-mern-backend.vercel.app"
-  // const backendURL = "http://localhost:3000";
-  const [thumbnails, setThumbnails] = useState([]);
-  const [Titles, setTitles] = useState();
-  const [uploader, setUploader] = useState();
-  const [ProfilePic, setProfilePic] = useState();
-  const [duration, setDuration] = useState();
-  const [VideoID, setVideoID] = useState();
-  const [Visibility, setVisibility] = useState();
-  const [menuClicked, setMenuClicked] = useState(() => {
-    const menu = localStorage.getItem("menuClicked");
-    return menu ? JSON.parse(menu) : false;
-  });
-  const [VideoViews, setVideoViews] = useState();
+  // const backendURL = "https://youtube-clone-mern-backend.vercel.app"
+  const backendURL = "http://localhost:3000";
   const [VideoData, setVideoData] = useState([]);
   const [TagsSelected, setTagsSelected] = useState("All");
-  const [publishDate, setPublishDate] = useState();
   const [FilteredVideos, setFilteredVideos] = useState([]);
+  const [menuClicked, setMenuClicked] = useState(false);
   const [loading, setLoading] = useState(true);
   const [theme, setTheme] = useState(() => {
     const Dark = localStorage.getItem("Dark");
@@ -40,44 +29,6 @@ function Browse() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  useEffect(() => {
-    const handleMenuButtonClick = () => {
-      setMenuClicked((prevMenuClicked) => !prevMenuClicked);
-    };
-
-    const menuButton = document.querySelector(".menu");
-    if (menuButton) {
-      menuButton.addEventListener("click", handleMenuButtonClick);
-    }
-
-    return () => {
-      if (menuButton) {
-        menuButton.removeEventListener("click", handleMenuButtonClick);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleMenuButtonClick = () => {
-      setMenuClicked((prevMenuClicked) => !prevMenuClicked);
-    };
-
-    const menuButton = document.querySelector(".menu-light");
-    if (menuButton) {
-      menuButton.addEventListener("click", handleMenuButtonClick);
-    }
-
-    return () => {
-      if (menuButton) {
-        menuButton.removeEventListener("click", handleMenuButtonClick);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("menuClicked", JSON.stringify(menuClicked));
-  }, [menuClicked]);
 
   const Tags = [
     "All",
@@ -94,34 +45,25 @@ function Browse() {
   useEffect(() => {
     const getVideos = async () => {
       try {
-        const response = await fetch(`${backendURL}/getvideos`);
-        const {
-          thumbnailURLs,
-          titles,
-          Uploader,
-          Profile,
-          Duration,
-          videoID,
-          views,
-          uploadDate,
-          Visibility,
-          videoData,
-        } = await response.json();
-        setThumbnails(thumbnailURLs);
-        setTitles(titles);
-        setUploader(Uploader);
-        setProfilePic(Profile);
-        setDuration(Duration);
-        setVideoID(videoID);
-        setVideoViews(views);
-        setPublishDate(uploadDate);
-        setVisibility(Visibility);
-        setVideoData(videoData);
+        const response = await fetch(`${backendURL}/bunny-videos`);
+        const data = await response.json();
+        if (data.items && Array.isArray(data.items)) {
+          const formattedVideos = data.items.map(video => ({
+            _id: video.guid,
+            thumbnailURL: video.thumbnailUrl,
+            videoLength: video.length,
+            Title: video.title,
+            uploader: video.channelName || "Bunny Videos",
+            views: video.views || 0,
+            uploaded_date: video.dateUploaded,
+            visibility: "Public",
+          }));
+          setVideoData(formattedVideos);
+        }
       } catch (error) {
-        // console.log(error.message);
+        console.log(error);
       }
     };
-
     getVideos();
   }, []);
 
@@ -129,11 +71,8 @@ function Browse() {
     if (TagsSelected !== "All") {
       const tagsSelectedLower = TagsSelected.toLowerCase();
       const filteredVideos = VideoData.flatMap((item) =>
-        item.VideoData.filter(
-          (element) =>
-            element.Tags.toLowerCase().includes(tagsSelectedLower) ||
-            element.Title.toLowerCase().includes(tagsSelectedLower)
-        )
+        item.Tags.map(tag => tag.toLowerCase()).includes(tagsSelectedLower) ||
+        item.Title.toLowerCase().includes(tagsSelectedLower) ? item : []
       );
       setFilteredVideos(filteredVideos);
     } else {
@@ -155,21 +94,7 @@ function Browse() {
     }
   }, [theme]);
 
-  //UPDATE VIEWS
-
-  const updateViews = async (id) => {
-    try {
-      const response = await fetch(`${backendURL}/updateview/${id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      await response.json();
-    } catch (error) {
-      // console.log(error.message);
-    }
-  };
+  // Removed updateViews function, as it is no longer needed.
 
   return (
     <>
@@ -195,6 +120,10 @@ function Browse() {
               className={
                 theme ? "popular-categories" : "popular-categories light-mode"
               }
+              style={{
+                left: menuClicked ? "250px" : "74px",
+                width: menuClicked ? "calc(100% - 250px)" : "calc(100% - 74px)",
+              }}
             >
               {Tags.map((element, index) => {
                 return (
@@ -285,6 +214,10 @@ function Browse() {
             className={
               theme ? "popular-categories" : "popular-categories light-mode"
             }
+            style={{
+              left: menuClicked ? "250px" : "74px",
+              width: menuClicked ? "calc(100% - 250px)" : "calc(100% - 74px)",
+            }}
           >
             {Tags.map((element, index) => {
               return (
@@ -328,40 +261,34 @@ function Browse() {
                     }
               }
             >
-              {thumbnails &&
-                thumbnails.length > 0 &&
-                thumbnails.map((element, index) => {
+              {VideoData &&
+                VideoData.length > 0 &&
+                VideoData.map((element, index) => {
                   return (
                     <div
                       className="video-data"
                       key={index}
                       style={
-                        Visibility[index] === "Public"
+                        element.visibility === "Public"
                           ? { display: "block" }
                           : { display: "none" }
                       }
                       onClick={() => {
-                        if (user?.success) {
-                          updateViews(VideoID[index]);
-                          setTimeout(() => {
-                            window.location.href = `/video/${VideoID[index]}`;
-                          }, 400);
-                        }
-                        window.location.href = `/video/${VideoID[index]}`;
+                        window.location.href = `/video/${element._id}`;
                       }}
                     >
                       <img
                         style={{ width: "330px", borderRadius: "10px" }}
-                        src={element}
+                        src={element.thumbnailURL}
                         alt="thumbnails"
                         className="browse-thumbnails"
                       />
                       <p className="duration">
-                        {Math.floor(duration[index] / 60) +
+                        {Math.floor(element.videoLength / 60) +
                           ":" +
-                          (Math.round(duration[index] % 60) < 10
-                            ? "0" + Math.round(duration[index] % 60)
-                            : Math.round(duration[index] % 60))}
+                          (Math.round(element.videoLength % 60) < 10
+                            ? "0" + Math.round(element.videoLength % 60)
+                            : Math.round(element.videoLength % 60))}
                       </p>
 
                       <div
@@ -372,22 +299,21 @@ function Browse() {
                         }
                       >
                         <div className="channel-pic">
-                          <img
-                            className="channel-profile"
-                            src={ProfilePic[index]}
-                            alt="channel-profile"
+                          <RandomAvatar
+                            name={element._id || element.Title}
+                            size={40}
                           />
                         </div>
                         <div className="channel-text-data">
                           <p className="title" style={{ marginTop: "10px" }}>
-                            {Titles[index] && Titles[index].length <= 60
-                              ? Titles[index]
-                              : `${Titles[index].slice(0, 55)}..`}
+                            {element.Title && element.Title.length <= 60
+                              ? element.Title
+                              : `${element.Title.slice(0, 55)}..`}
                           </p>
                           <div className="video-uploader">
                             <Tooltip
                               TransitionComponent={Zoom}
-                              title={uploader[index]}
+                              title={element.uploader}
                               placement="top"
                             >
                               <p
@@ -398,7 +324,7 @@ function Browse() {
                                 }
                                 style={{ marginTop: "10px" }}
                               >
-                                {uploader[index]}
+                                {element.uploader}
                               </p>
                             </Tooltip>
                             <Tooltip
@@ -422,13 +348,13 @@ function Browse() {
                             }
                           >
                             <p className="views">
-                              {VideoViews[index] >= 1e9
-                                ? `${(VideoViews[index] / 1e9).toFixed(1)}B`
-                                : VideoViews[index] >= 1e6
-                                ? `${(VideoViews[index] / 1e6).toFixed(1)}M`
-                                : VideoViews[index] >= 1e3
-                                ? `${(VideoViews[index] / 1e3).toFixed(1)}K`
-                                : VideoViews[index]}{" "}
+                              {element.views >= 1e9
+                                ? `${(element.views / 1e9).toFixed(1)}B`
+                                : element.views >= 1e6
+                                ? `${(element.views / 1e6).toFixed(1)}M`
+                                : element.views >= 1e3
+                                ? `${(element.views / 1e3).toFixed(1)}K`
+                                : element.views}{" "}
                               views
                             </p>
                             <p
@@ -438,7 +364,7 @@ function Browse() {
                               &#x2022;{" "}
                               {(() => {
                                 const timeDifference =
-                                  new Date() - new Date(publishDate[index]);
+                                  new Date() - new Date(element.uploaded_date);
                                 const minutes = Math.floor(
                                   timeDifference / 60000
                                 );
@@ -497,18 +423,7 @@ function Browse() {
                     <div
                       className="video-data"
                       key={index}
-                      style={
-                        element.visibility === "Public"
-                          ? { display: "block" }
-                          : { display: "none" }
-                      }
                       onClick={() => {
-                        if (user?.success) {
-                          updateViews(element._id);
-                          setTimeout(() => {
-                            window.location.href = `/video/${element._id}`;
-                          }, 400);
-                        }
                         window.location.href = `/video/${element._id}`;
                       }}
                     >
@@ -534,10 +449,9 @@ function Browse() {
                         }
                       >
                         <div className="channel-pic">
-                          <img
-                            className="channel-profile"
-                            src={element.ChannelProfile}
-                            alt="channel-profile"
+                          <RandomAvatar
+                            name={element._id || element.Title}
+                            size={40}
                           />
                         </div>
                         <div className="channel-text-data">

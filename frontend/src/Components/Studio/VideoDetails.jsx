@@ -20,8 +20,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { GrUndo } from "react-icons/gr";
 
 function VideoDetails() {
-  const backendURL = "https://youtube-clone-mern-backend.vercel.app"
-  // const backendURL = "http://localhost:3000";
+  // const backendURL = "https://youtube-clone-mern-backend.vercel.app"
+  const backendURL = "http://localhost:3000";
   const { id } = useParams();
   const [videodata, setVideoData] = useState();
   const [previewTitle, setPreviewTitle] = useState("");
@@ -48,7 +48,7 @@ function VideoDetails() {
   });
   const optionRef = useRef();
 
-  document.title = "Video details - YouTube Studio";
+  document.title = "Video details - RambleVerse Studio";
 
   //TOASTS
 
@@ -641,7 +641,7 @@ function VideoDetails() {
                 height="220"
                 className="playable-videoedit"
                 src={videodata && videodata.videoURL}
-                title="YouTube video player"
+                title="RambleVerse video player"
                 frameBorder="0"
                 allowFullScreen
               ></iframe>

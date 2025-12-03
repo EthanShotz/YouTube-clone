@@ -37,8 +37,8 @@ import { MdVideoLibrary } from "react-icons/md";
 import { useSelector } from "react-redux";
 
 function LeftPanel() {
-  const backendURL = "https://youtube-clone-mern-backend.vercel.app"
-  // const backendURL = "http://localhost:3000";
+  // const backendURL = "https://youtube-clone-mern-backend.vercel.app"
+  const backendURL = "http://localhost:3000";
   const [menuClicked, setMenuClicked] = useState(() => {
     const menu = localStorage.getItem("menuClicked");
     return menu ? JSON.parse(menu) : false;
@@ -518,7 +518,7 @@ function LeftPanel() {
           <hr className={theme ? "seperate" : "seperate-light"} />
           <Tooltip
             TransitionComponent={Zoom}
-            title="Made with 💖 by Shubhojeet"
+            title="Made with 💖 by EthanShotz"
             placement="bottom"
           >
             <div className="developer">
@@ -527,11 +527,11 @@ function LeftPanel() {
                 style={{ color: theme ? "white" : "black" }}
               />
               <a
-                href="https://github.com/shubho0908"
+                href="https://github.com/EthanShotz"
                 target="_blank"
                 rel="noreferrer"
               >
-                Shubhojeet Bera 🚀
+                EthanShotz 🚀
               </a>
             </div>
           </Tooltip>
@@ -1016,7 +1016,7 @@ function LeftPanel() {
             alt="logo"
             loading="lazy"
             style={{ marginLeft: "5px" }}
-            className="youtubeLogo"
+            className="mainLogo"
             onClick={() => {
               window.location.href = "/";
             }}
@@ -1344,7 +1344,7 @@ function LeftPanel() {
             <hr className={theme ? "seperate" : "seperate-light"} />
             <Tooltip
               TransitionComponent={Zoom}
-              title="Made with 💖 by Shubhojeet"
+              title="Made with 💖 by EthanShotz"
               placement="bottom"
             >
               <div className="developer">
@@ -1353,11 +1353,11 @@ function LeftPanel() {
                   style={{ color: theme ? "white" : "black" }}
                 />
                 <a
-                  href="https://github.com/shubho0908"
+                  href="https://github.com/EthanShotz"
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Shubhojeet Bera 🚀
+                  EthanShotz 🚀
                 </a>
               </div>
             </Tooltip>

@@ -11,8 +11,8 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useSelector } from "react-redux";
 function LeftPanel2() {
-  const backendURL = "https://youtube-clone-mern-backend.vercel.app"
-  // const backendURL = "http://localhost:3000";
+  // const backendURL = "https://youtube-clone-mern-backend.vercel.app"
+  const backendURL = "http://localhost:3000";
   const { id } = useParams();
   const [videodata, setVideoData] = useState();
   const VideoEditSection = localStorage.getItem("Video-Edit Section");
@@ -182,7 +182,7 @@ function LeftPanel2() {
             </p>
             <Tooltip
               TransitionComponent={Zoom}
-              title="View on YouTube"
+              title="View on RambleVerse"
               placement="bottom"
             >
               <YouTubeIcon
@@ -335,7 +335,7 @@ function LeftPanel2() {
             />
             <Tooltip
               TransitionComponent={Zoom}
-              title="View on YouTube"
+              title="View on RambleVerse"
               placement="bottom"
             >
               <YouTubeIcon
@@ -468,7 +468,7 @@ function LeftPanel2() {
             />
             <Tooltip
               TransitionComponent={Zoom}
-              title="View on YouTube"
+              title="View on RambleVerse"
               placement="bottom"
             >
               <YouTubeIcon

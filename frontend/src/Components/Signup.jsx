@@ -4,8 +4,8 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function Signup() {
-  const backendURL = "https://youtube-clone-mern-backend.vercel.app"
-  // const backendURL = "http://localhost:3000";
+  // const backendURL = "https://youtube-clone-mern-backend.vercel.app"
+  const backendURL = "http://localhost:3000";
   const [data, setData] = useState({});
   const [theme, setTheme] = useState(() => {
     const Dark = localStorage.getItem("Dark");
@@ -95,7 +95,7 @@ function Signup() {
         <p className="signup-head">Create Your Account</p>
         <p className="signup-desc">
           Unlock Your World of Entertainment, Unlock Your World of
-          Entertainment, Join the YouTube Community
+          Entertainment, Join the RambleVerse Community
         </p>
       </div>
       <div className="signup-form">

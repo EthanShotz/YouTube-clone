@@ -28,7 +28,7 @@
   padding-top: 25px;
   border-right: 1px solid rgba(128, 128, 128, 0.333);
   text-align: center;
-  z-index: 2;
+  z-index: 5;
 }
 
 .main-section3-new {
@@ -43,7 +43,7 @@
   padding-top: 25px;
   border-right: 1px solid rgba(128, 128, 128, 0.333);
   text-align: center;
-  z-index: 2;
+  z-index: 5;
 }
 
 .current-video-thumbnail {

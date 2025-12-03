@@ -52,8 +52,8 @@
   padding-left: 15px;
 }
 
-.youtubeLogo,
-.youtubeLogo2 {
+.mainLogo,
+.mainLogo2 {
   width: 110px;
   cursor: pointer;
   padding-left: 30px;
@@ -858,7 +858,7 @@ form > input::placeholder {
   .navbar2 {
     padding: 13px;
   }
-  .youtubeLogo2 {
+  .mainLogo2 {
     padding-left: 10px;
   }
   .right-bar2 {
@@ -877,7 +877,7 @@ form > input::placeholder {
   .menu-light {
     display: none !important;
   }
-  .youtubeLogo {
+  .mainLogo {
     padding-left: 0;
   }
   .videocreate,
