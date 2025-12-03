@@ -35,6 +35,7 @@ import WatchLaterIcon from "@mui/icons-material/WatchLater";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import { MdVideoLibrary } from "react-icons/md";
 import { useSelector } from "react-redux";
+import catAnimated from "../img/cat-animated.gif";
 
 function LeftPanel() {
   // const backendURL = "https://youtube-clone-mern-backend.vercel.app"
@@ -530,8 +531,10 @@ function LeftPanel() {
                 href="https://grunjee.com"
                 target="_blank"
                 rel="noreferrer"
+                style={{ display: "flex", alignItems: "center", gap: "6px" }}
               >
-                Grunjee 🚀
+                <img src={catAnimated} alt="cat" style={{ width: "20px", height: "20px" }} />
+                Grunjee
               </a>
             </div>
           </Tooltip>
@@ -1356,8 +1359,10 @@ function LeftPanel() {
                   href="https://grunjee.com"
                   target="_blank"
                   rel="noreferrer"
+                  style={{ display: "flex", alignItems: "center", gap: "6px" }}
                 >
-                  Grunjee 🚀
+                  <img src={catAnimated} alt="cat" style={{ width: "20px", height: "20px" }} />
+                  Grunjee
                 </a>
               </div>
             </Tooltip>
